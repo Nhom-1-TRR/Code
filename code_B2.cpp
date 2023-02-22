@@ -1,4 +1,5 @@
-int ternarySearch(int arr[], int left, int right, int x) {
+int ternarySearch(int arr[], int left, int x) {
+    int left = 0, right = n - 1;
     if (right >= left) {
         int mid1 = left + (right - left) / 3;
         int mid2 = right - (right - left) / 3;
@@ -12,14 +13,14 @@ int ternarySearch(int arr[], int left, int right, int x) {
         }
 
         if (x < arr[mid1]) {
-            return ternarySearch(arr, left, mid1 - 1, x);
+            right = mid1 - 1;
         } else if (x > arr[mid2]) {
-            return ternarySearch(arr, mid2 + 1, right, x);
+            left = mid2 + 1;
         } else {
-            return ternarySearch(arr, mid1 + 1, mid2 - 1, x);
+            left = mid1 + 1;
+            right = mid2 - 1;
         }
     }
-
     return -1;
 }
 

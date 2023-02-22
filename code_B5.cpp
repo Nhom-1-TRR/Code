@@ -1,26 +1,23 @@
 int  BinarySearch(int arr[], int l, int r, int x){
     int m;
-    while(l <= r){
-        m = l + (r - l)/2;
-        if(arr[m] == x) return m;
-        else if(arr[m] > x) r = m - 1;
-        else l = m + 1;
-    }
-    return l;
+    if (r < l) return (x > arr[l] ? low + 1 : low);
+    const int mid = floor((r + l) / 2);
+    if (x == arr[]) return mid + 1;
+    if (x > arr[mid]) 
+        return BinarySearch(arr, l, mid - 1, x);
+    return BinarySearch(arr, l, mid - 1, x);
 }
-void BinaryInsertionSort(int arr[], int n){
-    int i, j, sav;
+vector<int> BinaryInsertionSort(vector<int> arr, int n){
     for(int i = 2; i <= n; i++){
-        sav = arr[i];
-        j = i - 1;
-        /// Tìm vị trí
-        int id = BinarySearch(arr, 1, j, sav);
-
-        while(id <= j){
+        const int x = arr[i];
+        int j = i - 1;
+        const int index = BinarySearch(arr, 0, j, x);
+        while (j >= index){
             arr[j + 1] = arr[j];
             j--;
         }
-        arr[id] = sav;
+        arr[j + 1] = x;
     }
+    return arr;
 }
 
