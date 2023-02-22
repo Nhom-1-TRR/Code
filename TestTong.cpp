@@ -2,7 +2,8 @@
 
 using namespace std;
 
-int ternarySearch(int arr[], int left, int right, int x) {
+int ternarySearch(int arr[], int left, int x) {
+    int left = 0, right = n - 1;
     if (right >= left) {
         int mid1 = left + (right - left) / 3;
         int mid2 = right - (right - left) / 3;
@@ -16,14 +17,14 @@ int ternarySearch(int arr[], int left, int right, int x) {
         }
 
         if (x < arr[mid1]) {
-            return ternarySearch(arr, left, mid1 - 1, x);
+            right = mid1 - 1;
         } else if (x > arr[mid2]) {
-            return ternarySearch(arr, mid2 + 1, right, x);
+            left = mid2 + 1;
         } else {
-            return ternarySearch(arr, mid1 + 1, mid2 - 1, x);
+            left = mid1 + 1;
+            right = mid2 - 1;
         }
     }
-
     return -1;
 }
 /// 5
@@ -43,46 +44,44 @@ void insertionSort(int arr[], int n){
         arr[j + 1] = sav;
     }
 }
-int binarySearch(int arr[], int l, int r, int x){
+int  BinarySearch(int arr[], int l, int r, int x){
     int m;
-    while(l <= r){
-        m = l + (r - l)/2;
-        if(arr[m] == x) return m;
-        else if(arr[m] > x) r = m - 1;
-        else l = m + 1;
-    }
-    return l;
+    if (r < l) return (x > arr[l] ? low + 1 : low);
+    const int mid = floor((r + l) / 2);
+    if (x == arr[]) return mid + 1;
+    if (x > arr[mid]) 
+        return BinarySearch(arr, l, mid - 1, x);
+    return BinarySearch(arr, l, mid - 1, x);
 }
-void binaryInsertionSort(int arr[], int n){
-    int i, j, sav;
+vector<int> BinaryInsertionSort(vector<int> arr, int n){
     for(int i = 2; i <= n; i++){
-        sav = arr[i];
-        j = i - 1;
-        /// Tìm vị trí
-        int id = binarySearch(arr, 1, j, sav);
-
-        while(id <= j){
+        const int x = arr[i];
+        int j = i - 1;
+        const int index = BinarySearch(arr, 0, j, x);
+        while (j >= index){
             arr[j + 1] = arr[j];
             j--;
         }
-        arr[id] = sav;
+        arr[j + 1] = x;
     }
+    return arr;
 }
-void countingSort(int arr[], int n){
-    int Max = arr[1];
-    for(int i = 2; i <= n; i++) Max = max(Max, arr[i]);
-    int d[Max + 1]; /// Đếm sl xuất hiển của index
-    memset(d, 0, sizeof(d));
-    for(int i = 1; i <= n; i++) d[arr[i]]++;
-    int id = 0;
-
-    for(int i = 0; i <= Max; i++) {
-        while(d[i] > 0){
-            d[i]--;
-            arr[++id] = i;
-        }
+void countingSort(vector<int>& arr, int range) {
+    vector<int> count(range + 1, 0);
+    for (int i = 0; i < arr.size(); i++) {
+        count[arr[i]]++;
     }
-    //cout << id;
+    for (int i = 1; i <= range; i++) {
+        count[i] += count[i-1];
+    }
+    vector<int> output(arr.size());
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        output[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
+    }
+    for (int i = 0; i < arr.size(); i++) {
+        arr[i] = output[i];
+    }
 }
 /*
     Độ phức tạp thời gian của thuật toán sắp xếp đếm là O(n + k),

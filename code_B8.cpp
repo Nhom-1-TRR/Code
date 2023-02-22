@@ -1,18 +1,19 @@
-void countingSort(int arr[], int n){
-    int Max = arr[1];
-    for(int i = 2; i <= n; i++) Max = max(Max, arr[i]);
-    int d[Max + 1]; /// Đếm sl xuất hiển của index
-    memset(d, 0, sizeof(d));
-    for(int i = 1; i <= n; i++) d[arr[i]]++;
-    int id = 0;
-
-    for(int i = 0; i <= Max; i++) {
-        while(d[i] > 0){
-            d[i]--;
-            arr[++id] = i;
-        }
+void countingSort(vector<int>& arr, int range) {
+    vector<int> count(range + 1, 0);
+    for (int i = 0; i < arr.size(); i++) {
+        count[arr[i]]++;
     }
-    //cout << id;
+    for (int i = 1; i <= range; i++) {
+        count[i] += count[i-1];
+    }
+    vector<int> output(arr.size());
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        output[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
+    }
+    for (int i = 0; i < arr.size(); i++) {
+        arr[i] = output[i];
+    }
 }
 /*
     Độ phức tạp thời gian của thuật toán sắp xếp đếm là O(n + k),
